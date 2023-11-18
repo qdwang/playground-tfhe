@@ -1,5 +1,5 @@
 use std::{env, fs};
-use tfhe::{prelude::*, FheInt32, CompactFheInt32};
+use tfhe::{prelude::*, FheInt32};
 use tfhe::{
     prelude::{FheDecrypt, FheEncrypt},
     ClientKey, CompressedFheInt32, CompressedServerKey, ConfigBuilder,
@@ -14,12 +14,14 @@ fn main() {
         [_, "client", "decrypt", result_path] => client_decrypt(result_path),
         [_, "server", "sort", data_path] => server_sort(data_path),
         _ => {
-            println!(r#"
+            println!(
+                r#"
 playground-tfhe client gen_key => 作为客户端生成2个key,
 playground-tfhe client encrypt a b c => 作为客户端加密3个数字,
 playground-tfhe server sort encrypted_numbers => 作为服务器进行排序计算,
 playground-tfhe client decrypt result_path => 作为客户端解密得到的结果,
-            "#)
+            "#
+            )
         }
     }
 }
@@ -57,9 +59,9 @@ fn client_decrypt(x_path: &str) {
     let (enc_a, enc_b, enc_c): (FheInt32, FheInt32, FheInt32) =
         bincode::deserialize(&encrypted_result_bytes).expect("encrypted result deserialize error");
 
-    let a : i32 = enc_a.decrypt(&ck);
-    let b : i32 = enc_b.decrypt(&ck);
-    let c : i32 = enc_c.decrypt(&ck);
+    let a: i32 = enc_a.decrypt(&ck);
+    let b: i32 = enc_b.decrypt(&ck);
+    let c: i32 = enc_c.decrypt(&ck);
 
     println!("The sorting result is: {a} {b} {c}");
 }
