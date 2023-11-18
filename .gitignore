@@ -10,3 +10,8 @@ Cargo.lock
 **/*.rs.bk
 
 .DS_Store
+
+client_key
+server_key
+sort_result
+encrypted_numbers
